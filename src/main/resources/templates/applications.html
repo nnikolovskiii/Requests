@@ -1,0 +1,148 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div>
+        <form>
+            <label for="name"></label>
+            <input type="text" id="name" name="name" placeholder="Search...">
+            <select name="applicationType">
+                <option value="">All</option>
+                <option th:each="at : ${applicationTypes}" th:value="${at.getId()}" th:text="${at.getName()}"></option>
+            </select>
+
+            <button type="submit">Барај</button>
+        </form>
+    </div>
+
+    <div>
+        <label for="molbi">Листа на молби</label>
+        <table id="molbi">
+            <tr>
+                <th>#</th>
+                <th>ИД</th>
+                <th>Тип</th>
+                <th>Поднесена на</th>
+                <th>Предмет</th>
+                <th>Професор</th>
+                <th>Моментален смер</th>
+                <th>Нов смер</th>
+<!--                <th>proba</th>-->
+                <th>Број на рати</th>
+                <th>Опис</th>
+                <th>Статус</th>
+            </tr>
+
+<!--            glavno-->
+            <tr th:each="a, counter : ${allApplicationsInApplicationCart}">
+                <!--#--><td th:text="${counter.count}"></td>
+                <!--И--><td th:text="${a.getId()}"></td>
+                <!--Т--><td th:text="${a.getApplicationTypeMacedonian()}"></td>
+                <!--П--><td th:text="${a.getDateSubmission()}"></td>
+                <!--Пredmet--><td th:text="${a.hasSubject() ? a.getSubject() : ''}"></td>
+                <!--Пrofesor--><td th:text="${a.hasCurrentAndNewProfessor() ? a.getCurrentProfessor() + ' --> ' + a.getNewProfessor() :
+                (a?.hasProfessor() ? a?.getProfessor() : '')}"></td>
+                <!--М.smer--><td th:text="${a.hasCurrentMajorStudies() ? a.getCurrentMajorStudies() : ''}"></td>
+                <!--H.smer--><td th:text="${a.hasNewMajorStudies() ? a.getNewMajorStudies() : ''}"></td>
+                <!--Бr. rati--><td th:text="${a.hasInstallmentsNumber() ? a.getInstallmentsNumber() : ''}"></td>
+                <!--Оpis--><td th:text="${a.getDescription()}"></td>
+                <!--Ctatus--><td th:text="${a?.getApplicationUserStatus()}"></td>
+            </tr>
+<!--            glavno-->
+
+
+
+<!--            <tr th:each="a, counter : ${applicationsForProfessorChanging}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за промена на професор'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getCurrentProfessor()} + ' &ndash;&gt; ' + ${a.getNewProfessor()}"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="''"></td>-->
+<!--&lt;!&ndash;                &lt;!&ndash;proba&ndash;&gt;<td th:text="${a.hasCurrentMajorStudies() ? a.getCurrentMajorStudies() : ''}"></td>&ndash;&gt;-->
+<!--                &lt;!&ndash;Н&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;O&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;C&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+<!--            <tr th:each="a, counter : ${applicationsForMajorChanging}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${applicationsForProfessorChanging.size() + counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за промена на студиска програма'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="${a.getCurrentMajorStudies()}"></td>-->
+<!--                &lt;!&ndash;H&ndash;&gt;<td th:text="${a.getNewMajorStudies()}"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;О&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;C&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+<!--            <tr th:each="a, counter : ${applicationsForCourseWithoutPrerequisite}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${applicationsForMajorChanging.size() +-->
+<!--                        applicationsForProfessorChanging.size() + counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за запишување предмет без исполнет предуслов'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getSubject()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getProfessor()}"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;H&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;О&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;С&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+<!--            <tr th:each="a, counter : ${applicationsForCredits35Plus}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${applicationsForCourseWithoutPrerequisite?.size() +-->
+<!--                        applicationsForMajorChanging?.size() +-->
+<!--                        applicationsForProfessorChanging?.size() + counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за запишување на повеќе од 35 кредити'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getSubject()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getProfessor()}"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;H&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;О&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;С&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+<!--            <tr th:each="a, counter : ${applicationsForPaymentInstallments}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${applicationsForCredits35Plus.size() +-->
+<!--                                applicationsForCourseWithoutPrerequisite.size() +-->
+<!--                                applicationsForMajorChanging.size() +-->
+<!--                                applicationsForProfessorChanging.size() + counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за плаќање на рати'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;H&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="${a.getInstallmentsNumber()}"></td>-->
+<!--                &lt;!&ndash;О&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;С&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+<!--            <tr th:each="a, counter : ${applicationsForPaymentInstallments}">-->
+<!--                &lt;!&ndash;                todo FIRST_YEAR_GROUP_CHANGING&ndash;&gt;-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${applicationsForPaymentInstallments.size() +-->
+<!--                                    applicationsForCredits35Plus.size() +-->
+<!--                                    applicationsForCourseWithoutPrerequisite.size() +-->
+<!--                                    applicationsForMajorChanging.size() +-->
+<!--                                    applicationsForProfessorChanging.size() + counter.count}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:if="${a.getApplicationType() != null}" th:text="'Молба за промена на група - прва година'"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="${a.getDateSubmission()}"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;П&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;М&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;H&ndash;&gt;<td th:text="''"></td>-->
+<!--                &lt;!&ndash;Б&ndash;&gt;<td th:text="${a.getInstallmentsNumber()}"></td>-->
+<!--                &lt;!&ndash;О&ndash;&gt;<td th:text="${a.getDescription()}"></td>-->
+<!--                &lt;!&ndash;С&ndash;&gt;<td th:text="${a?.getApplicationUserStatus()}"></td>-->
+<!--            </tr>-->
+            <tr>
+            </tr>
+        </table>
+    </div>
+
+</th:block>

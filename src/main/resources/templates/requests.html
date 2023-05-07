@@ -1,0 +1,50 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+  <div>
+    <form>
+      <label for="name"></label>
+      <input type="text" id="name" name="name" placeholder="Search...">
+      <select name="applicationType">
+        <option value="">All</option>
+      </select>
+
+      <button type="submit">Барај</button>
+    </form>
+  </div>
+
+  <div>
+    <label for="molbi">Листа на молби</label>
+    <table id="molbi">
+      <tr>
+        <th>ИД</th>
+        <th>Тип</th>
+        <th>Поднесена на</th>
+        <th>Предмет</th>
+        <th>Професор</th>
+        <th>Моментален смер</th>
+        <th>Нов смер</th>
+        <!--                <th>proba</th>-->
+        <th>Број на рати</th>
+        <th>Опис</th>
+        <th>Статус</th>
+      </tr>
+
+      <!--            glavno-->
+      <tr th:each="r: ${requests}">
+        <!--И--><td th:text="${r.id}"></td>
+        <!--Т--><td >A</td>
+        <!--П--><td th:text="${r.submissionDate}"></td>
+        <!--Пredmet--><td th:text="${r.getCourse()}"></td>
+        <!--Пrofesor--><td>a</td>
+        <!--М.smer--><td >A</td>
+        <!--H.smer--><td >A</td>
+        <!--Бr. rati--><td th:text="${r.numOfInstallments}"></td>
+        <!--Оpis--><td >A</td>
+        <!--Ctatus--><td >A</td>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+  </div>
+
+</th:block>

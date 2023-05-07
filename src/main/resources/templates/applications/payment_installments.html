@@ -1,0 +1,57 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" th:if="${isValid}">
+
+    <h2>
+        Плаќање на рати
+    </h2>
+    <form method="post" action="/applicationType/payment_installments">
+
+        <div>
+            <label for="type">Тип</label><br/>
+            <select name="appTypeId" id="type">
+                <option th:if="${appType} != null"
+                        th:selected="${appType != null && appTypeId == t.getId()}"
+                        th:each="t : ${allTypes}"
+                        th:value="${t.getId()}"
+                        th:text="${t.getName()}"
+                        disabled>
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="submittedOn">Поднесена на</label>
+            <input type="date" id="submittedOn" name="dateSubmission"
+                   th:value="${currentDate}" readonly>
+        </div>
+
+        <div>
+            <label for="installments">Број на рати</label>
+            <select name="installmentsNumber" id="installments">
+                <option th:value="2" th:selected>2</option>
+                <option th:value="3">3</option>
+                <option th:value="4">4</option>
+                <option th:value="5">5</option>
+            </select>
+        </div>
+
+
+        <div>
+            <label for="description">Краток опис</label>
+            <textarea id="description" name="description" rows="4" cols="40" required></textarea>
+        </div>
+
+        <button type="submit">Поднеси молба</button>
+        <a href="/home">Назад</a>
+
+    </form>
+</th:block>
+
+
+<th:block th:if="${!isValid}">
+
+    <div>
+        <h2>Времето е истечено за аплицирање.</h2>
+    </div>
+
+
+</th:block>

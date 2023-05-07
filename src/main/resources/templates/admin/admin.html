@@ -1,0 +1,87 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <h2>buttons for list of users</h2>
+    <h2>buttons for adding new type of application</h2>
+
+
+    <div>
+
+        <table>
+            <tr>
+                <th>Бр.</th>
+                <th>Име на корисник</th>
+                <th>Презиме</th>
+                <th>К. Име</th>
+                <th>Улога</th>
+            </tr>
+            <tr th:each="u, counter : ${users}">
+                <td th:text="${counter.count}"></td>
+                <td th:text="${u?.getName()}"></td>
+                <td th:text="${u?.getSurname()}"></td>
+                <td th:text="${u?.getUsername()}"></td>
+                <td th:text="${u?.getRole()}"></td>
+                <td>
+                    <th:block sec:authorize="isAuthenticated()">
+
+                        <form method="post" th:action="@{'/applications/{id}/apply' (id=${u.getId()})}"
+                              sec:authorize="hasAuthority('USER')">
+                            <button type="submit">Избриши</button>
+                        </form>
+                        <a th:href="@{'/applications/{id}/edit' (id=${u.getId()})}"
+                           sec:authorize="hasAuthority('ADMIN')">Измени</a>
+                    </th:block>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div>
+        <label for="molbi">Листа на молби</label>
+        <table id="molbi">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>ИД</th>
+                <th>Студент</th>
+                <th>Тип</th>
+                <th>Поднесена на</th>
+                <th>Предмет</th>
+                <th>Професор</th>
+                <th>Моментален смер</th>
+                <th>Нов смер</th>
+                <th>Број на рати</th>
+                <th>Опис</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+<!--            <tr th:each="entry, counter : ${map}">-->
+<!--                &lt;!&ndash;#&ndash;&gt;<td th:text="${counter.count}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:text="${entry.key}"></td>-->
+<!--                &lt;!&ndash;И&ndash;&gt;<td th:text="${a.getId()}"></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:each="val : {entry.value}" th:text=""></td>-->
+<!--                &lt;!&ndash;Т&ndash;&gt;<td th:text="${a.getApplicationTypeMacedonian()}"></td>-->
+<!--            </tr>-->
+
+            <tr th:each="entry, counter : ${map}">
+                <!--#-->
+                <td th:text="${counter.count}"></td>
+                <!--Key-->
+                <td th:text="${entry.key}"></td>
+                <!--Value-->
+                <td>
+                    <span th:each="val : ${entry.value}"
+                          th:text="${val.getId()} + ' ' + ${val.getApplicationTypeMacedonian()} + ' ' + ${val.getDateSubmission()} + ' ' + (${val.hasSubject() ? val.getSubject() : ''}) + ' ' + (${val.hasCurrentAndNewProfessor() ? val.getCurrentProfessor() + ' --> ' + val.getNewProfessor() : (val?.hasProfessor() ? val?.getProfessor() : '')}) + ' ' + (${val.hasCurrentMajorStudies() ? val.getCurrentMajorStudies() : ''}) + ' ' + (${val.hasNewMajorStudies() ? val.getNewMajorStudies() : ''}) + ' ' + (${val.hasInstallmentsNumber() ? val.getInstallmentsNumber() : ''}) + ' ' + ${val.getDescription()} + ' ' + ${val?.getApplicationUserStatus()}"></span>
+                </td>
+                <!--Application Type Macedonian-->
+<!--                <td th:text="${a.getApplicationTypeMacedonian()}"></td>-->
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+</th:block>

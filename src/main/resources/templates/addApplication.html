@@ -1,0 +1,57 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <div>
+        <form method="post" th:action="@{'/applications/add/{id}' (id=${appId})}">
+            <!--            <input type="text" id="name" name="newTypeOfApplication" placeholder="Име на молба..." required>-->
+            <label>Тип на молба:</label>
+            <select name="appTypeId">
+                <option value="">Избрери тип...</option>
+                <option th:each="at : ${applicationTypes}"
+                        th:value="${at?.getId()}"
+                        th:text="${at?.getName()}"
+                        th:selected="${appType != null &&
+                                    at == appType}"></option>
+            </select>
+            <br>
+            <label for="date-from">Датум од</label>
+            <input type="datetime-local"
+                   id="date-from"
+                   name="dateFrom"
+                   th:value="${appDateFrom}"
+                   required>
+
+            <br>
+            <label for="date-to">Датум до</label>
+            <input type="datetime-local"
+                   id="date-to"
+                   name="dateTo"
+                   th:value="${appDateTo}" required>
+
+            <br>
+            <label for="description">Опис на молбата</label>
+            <!--            <input type="text" id="description" name="description" required>-->
+            <th:block th:if="${appId} != null">
+            <textarea id="description"
+                      name="description"
+                      rows="4" cols="40"
+                      th:value="${appDescription} + 'ima neshto??'"
+                      th:text="${appDescription}"
+                      required></textarea>
+            </th:block>
+            <th:block th:if="${appId} == null">
+            <textarea id="description"
+                      name="description"
+                      rows="4" cols="40"
+                      th:value="${appDescription}"
+                      required></textarea>
+            </th:block>
+            <br>
+
+            <button type="submit">Зачувај</button>
+            <div th:if="${param.error != null} " th:text="${'Оваа молба веќе постои!'}" style="color: red"></div>
+            <br>
+            <a href="/home">Назад</a>
+        </form>
+    </div>
+
+</th:block>

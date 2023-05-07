@@ -1,0 +1,77 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" th:if="${isValid}">
+
+    <h2>
+        Запишување на предмет без исполнет предуслов
+    </h2>
+
+    <form method="post" action="/applicationType/course_without_prerequisite">
+
+        <div>
+            <label for="type">Тип</label><br/>
+            <select name="appTypeId" id="type">
+                <option th:if="${appType} != null"
+                        th:selected="${appType != null && appTypeId == t.getId()}"
+                        th:each="t : ${allTypes}"
+                        th:value="${t.getId()}"
+                        th:text="${t.getName()}"
+                        disabled>
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="submittedOn">Поднесена на:</label>
+            <input type="date" id="submittedOn" name="dateSubmission"
+                   th:value="${currentDate}" readonly>
+        </div>
+
+        <div>
+            <label for="professor">Изберете професор:</label>
+            <br>
+            <select name="professorId" id="professor" required>
+                <option value="">Избререте професор...</option>
+                <option th:if="${allProfessors} != null"
+                        th:each="p : ${allProfessors}"
+                        th:value="${p.getId()}"
+                        th:text="${p.getName()} + ' ' + ${p.getSurname()}"
+                >
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="subject">Изберете предмет:</label>
+            <br>
+            <select name="courseId" id="subject" required>
+                <option value="">Избререте предмет...</option>
+                <option th:if="${allCourses} != null"
+                        th:each="c : ${allCourses}"
+                        th:value="${c.getId()}"
+                        th:text="${c.getName()}"
+                >
+                </option>
+            </select>
+        </div>
+
+
+        <div>
+            <label for="description">Краток опис:</label>
+            <textarea id="description" name="description" rows="4" cols="40" required></textarea>
+        </div>
+
+        <button type="submit">Поднеси молба</button>
+        <a href="/home">Назад</a>
+
+    </form>
+
+
+
+</th:block>
+<th:block th:if="${!isValid}">
+
+    <div>
+        <h2>Времето е истечено за аплицирање. Више срече други пут xD!</h2>
+    </div>
+
+
+</th:block>

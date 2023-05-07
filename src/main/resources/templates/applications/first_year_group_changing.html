@@ -1,0 +1,22 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" th:if="${isValid}">
+
+
+    <h2>
+        Промена на група - прва година
+    </h2>
+
+    <form method="post" action="/applicationType/first_year_group_changing">
+
+
+    </form>
+
+
+</th:block>
+<th:block th:if="${!isValid}">
+
+    <div>
+        <h2>Времето е истечено за аплицирање. Више срече други пут xD!</h2>
+    </div>
+
+
+</th:block>

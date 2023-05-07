@@ -1,0 +1,42 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" >
+
+
+    <form method="post" th:action="@{'/home/{id}/edit'(id=${application?.id})}">
+
+        <label >Тип на молба:</label>
+        <select name="appTypeId">
+            <option value="">Избрери тип...</option>
+            <option th:each="at : ${applicationTypes}"
+                    th:value="${at?.getId()}"
+                    th:text="${at?.getName()}"></option>
+        </select>
+        <br>
+
+        <label for="date-from">Датум од</label>
+        <input type="datetime-local"
+               id="date-from"
+               name="dateFrom"
+               th:value="${application?.dateFrom}" required>
+
+        <br>
+        <label for="date-to">Датум до</label>
+        <input type="datetime-local"
+               id="date-to"
+               name="dateTo"
+               th:value="${application?.dateTo}" required>
+
+        <br>
+        <label for="description">Опис на молбата</label>
+        <!--            <input type="text" id="description" name="description" required>-->
+        <textarea id="description"
+                  name="description"
+                  rows="4" cols="40"
+                  th:value="${application?.description}"
+                  required></textarea>
+
+        <button>Зачувај</button>
+
+    </form>
+
+
+</th:block>

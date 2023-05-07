@@ -1,0 +1,60 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml">
+
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <a href="/applications/add">Додади нова молба</a>
+    </div>
+
+    <div>
+        <label for="molbi">Упатство за поднесување на молби</label>
+        <hr>
+        <table id="molbi">
+
+            <tr>
+                <th>Тип на молба</th>
+                <th>Опис</th>
+                <th>Важи од</th>
+                <th>Важи до</th>
+            </tr>
+            <tr th:each="a, counter : ${applications}">
+                <!--                <td th:text="${counter.count}"></td>-->
+                <td th:text="${a?.getApplicationType()?.getName()}"></td>
+                <td th:text="${a.getDescription()}"></td>
+                <td th:text="(${a.getDateFrom().toLocalDate().toString()} + ' ' + ${a.getDateFrom().toLocalTime().toString().split('\\.')[0]})"></td>
+                <td th:text="(${a.getDateTo().toLocalDate().toString()} + ' ' + ${a.getDateTo().toLocalTime().toString().split('\\.')[0]})"></td>
+                <td>
+                    <th:block sec:authorize="isAuthenticated()">
+                        <th:block th:if="${currentTime.isBefore(a.getDateTo()) || currentTime.isEqual(a.getDateTo())}">
+                            <a th:href="@{'/applications/{id}/apply' (id=${a.getId()})}"
+                               sec:authorize="hasAuthority('USER')">Аплицирај</a>
+                        </th:block>
+
+
+                        <th:block sec:authorize="hasAuthority('ADMIN')">
+                            <a th:href="@{'/applications/{id}/edit' (id=${a.getId()})}"
+                               sec:authorize="hasAuthority('ADMIN')">Измени
+                            </a>
+
+                        </th:block>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block sec:authorize="hasAuthority('ADMIN')">
+                        <h5 th:if="${currentTime.isBefore(a.getDateTo()) || currentTime.isEqual(a.getDateTo())}"
+                        style="color: green">
+                            (Отворено за аплицирање)
+                        </h5>
+                        <h5 th:if="${!(currentTime.isBefore(a.getDateTo()) || currentTime.isEqual(a.getDateTo()))}"
+                        style="color: red">
+                            (Затворено за аплицирање)
+                        </h5>
+                    </th:block>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${param.error != null} " th:text="${param.error}" style="color: red"></div>
+    <div th:if="${param.SuccessfullyApplied != null} " th:text="${'Успешно поднесена молба'}"
+         style="color: green"></div>
+
+</th:block>

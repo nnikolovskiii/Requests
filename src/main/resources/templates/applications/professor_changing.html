@@ -1,0 +1,107 @@
+<th:block xmlns:sec="http://www.w3.org/1999/xhtml" th:if="${isValid}">
+
+
+    <h2>
+        Промена на професор
+    </h2>
+
+<!--    <form method="post" th:action="@{'/applicationType/{id}/professor_changing' (id=${appId})}">-->
+    <form method="post" action="/applicationType/professor_changing">
+
+        <div>
+            <label for="type">Тип</label><br/>
+            <select name="appTypeId" id="type">
+                <option th:if="${appType} != null"
+                        th:selected="${appType != null && appTypeId == t.getId()}"
+                        th:each="t : ${allTypes}"
+                        th:value="${t.getId()}"
+                        th:text="${t.getName()}"
+                        disabled>
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="submittedOn">Поднесена на:</label>
+            <input type="date" id="submittedOn" name="dateSubmission"
+                   th:value="${currentDate}" readonly>
+        </div>
+
+        <div>
+            <label for="subject">Изберете предмет:</label>
+            <br>
+            <select name="courseId" id="subject" required>
+                <option value="">Избререте предмет...</option>
+                <option th:if="${allCourses} != null"
+                        th:each="c : ${allCourses}"
+                        th:value="${c.getId()}"
+                        th:text="${c.getName()}"
+                        >
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="currentProfessor">Изберете моментален професор:</label>
+            <br>
+            <select name="currentProfessorId" id="currentProfessor" required onchange="avoidDuplicateValues()">
+                <option value="">Избререте моментален професор...</option>
+                <option th:if="${allProfessors} != null"
+                        th:each="p : ${allProfessors}"
+                        th:value="${p.getId()}"
+                        th:text="${p.getName()} + ' ' + ${p.getSurname()}"
+                        >
+                </option>
+            </select>
+        </div>
+        <div>
+            <label for="newProfessor">Изберете професор кај кого сакате да се префрлите:</label>
+            <br>
+            <select name="newProfessorId" id="newProfessor" required onchange="avoidDuplicateValues()">
+                <option value="">Избререте нов професор...</option>
+                <option th:if="${allProfessors} != null"
+                        th:each="p : ${allProfessors}"
+                        th:value="${p.getId()}"
+                        th:text="${p.getName()} + ' ' + ${p.getSurname()}"
+                >
+                </option>
+            </select>
+        </div>
+
+
+        <div>
+            <label for="description">Краток опис:</label>
+            <textarea id="description" name="description" rows="4" cols="40" required></textarea>
+        </div>
+
+        <button type="submit">Поднеси молба</button>
+        <a href="/home">Назад</a>
+
+    </form>
+
+    <script th:inline="javascript">
+        function avoidDuplicateValues() {
+            var currentProfessor = document.getElementById("currentProfessor");
+            var newProfessor = document.getElementById("newProfessor");
+
+            for (var i = 0; i < newProfessor.options.length; i++) {
+                if (newProfessor.options[i].value == currentProfessor.value) {
+                    newProfessor.options[i].disabled = true;
+                } else {
+                    newProfessor.options[i].disabled = false;
+                }
+            }
+        }
+    </script>
+
+
+
+</th:block>
+<th:block th:if="${!isValid}">
+
+    <div>
+        <h2>Времето е истечено за аплицирање. Више срече други пут xD!</h2>
+    </div>
+
+
+</th:block>
