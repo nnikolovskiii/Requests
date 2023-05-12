@@ -1,71 +1,59 @@
+/*
 package mk.ukim.finki.application.web;
 
 
 import mk.ukim.finki.application.model.*;
+import mk.ukim.finki.application.model.dto.ApplicationDto;
 import mk.ukim.finki.application.model.enums.ApplicationType;
 import mk.ukim.finki.application.service.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/applications")
 public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    public ApplicationController(ApplicationService applicationService){
+    public ApplicationController(ApplicationService applicationService) {
         this.applicationService = applicationService;
     }
 
     @GetMapping
-    public String getApplicationsPage(Model model) {
-        List<Application> applications = this.applicationService.findAll();
-
-        model.addAttribute("applications", applications);
-
-        model.addAttribute("bodyContent", "applications");
-        return "master-template";
+    public List<Application> getApplications() {
+        return applicationService.findAll();
     }
 
-    @GetMapping("/add")
-    public String addNewApplication(Model model) {
-        model.addAttribute("bodyContent", "addApplication");
-        model.addAttribute("applicationTypes", ApplicationType.values());
-        return "master-template";
+    @GetMapping("/{id}")
+    public Application getApplicationById(@PathVariable Long id) {
+        return applicationService.findById(id);
     }
 
-    @PostMapping("/add")
-    public String addNewApplication(@RequestParam ApplicationType applicationType,
-                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
-                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo) {
-
-
-            this.applicationService.save(dateFrom, dateTo, applicationType);
-            return "master-template";
+    @PostMapping
+    public Application createApplication(@RequestBody ApplicationDto applicationDTO) {
+        LocalDateTime dateFrom = applicationDTO.getDateFrom();
+        LocalDateTime dateTo = applicationDTO.getDateTo();
+        ApplicationType applicationType = applicationDTO.getApplicationType();
+        return applicationService.save(dateFrom, dateTo, applicationType);
     }
 
-    @GetMapping("/{id}/edit")
-    public String showEditApplication(@PathVariable Long id, Model model) {
-        Application application = this.applicationService.findById(id);
-        model.addAttribute("application",application);
-        model.addAttribute("applicationTypes",ApplicationType.values());
-        model.addAttribute("bodyContent","addApplication");
-        return "master-template";
+    @PutMapping("/{id}")
+    public Application updateApplication(@PathVariable Long id, @RequestBody ApplicationDto applicationDTO) {
+        LocalDateTime dateFrom = applicationDTO.getDateFrom();
+        LocalDateTime dateTo = applicationDTO.getDateTo();
+        ApplicationType applicationType = applicationDTO.getApplicationType();
+        Optional<Application> updatedApplication = applicationService.update(id, applicationType, dateFrom, dateTo);
+        return updatedApplication.orElseThrow(() -> new ResourceNotFoundException("Application not found"));
     }
 
-    @PostMapping("/add/{id}")
-    public String editApplication(@PathVariable Long id,
-                                  @RequestParam ApplicationType applicationType,
-                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
-                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo) {
-        this.applicationService.update(id, applicationType, dateFrom, dateTo);
-
-        return "redirect:/home";
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
+        applicationService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
-}
+}*/
